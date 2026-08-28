@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Open Geo",
+  title: "Where in the world?",
   description: "A world geography guessing game",
 };
 

@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState, type ReactNode } from "react";
-import { Settings, Play, X, Check } from "lucide-react";
+import { Settings, Play, X, Check, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -29,7 +29,10 @@ export function HomeScreen({ continents, countries }: HomeScreenProps) {
   const selectedCountries = new Set(settings.countries);
 
   function startGame() {
-    sessionStorage.setItem("geo-game-countries", JSON.stringify(settings.countries));
+    sessionStorage.setItem(
+      "geo-game-countries",
+      JSON.stringify(settings.countries),
+    );
     router.push(`/game`);
   }
 
@@ -76,10 +79,10 @@ export function HomeScreen({ continents, countries }: HomeScreenProps) {
       <header className="relative z-10 flex items-center justify-between px-6 py-6 sm:px-10 sm:py-8">
         <div className="flex items-center gap-3">
           <span className="flex size-10 items-center justify-center rounded-full bg-[#c9db59] text-[#10251f]">
-            <span className="size-3 rounded-full bg-[#10251f]" />
+            <MapPin className="size-5 fill-current" />
           </span>
           <span className="font-mono text-sm font-semibold uppercase tracking-[0.24em]">
-            Open Geo
+            Where in the world?
           </span>
         </div>
         <span className="font-mono text-xs uppercase tracking-[0.18em] text-[#aab9a9]">

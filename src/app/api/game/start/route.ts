@@ -1,5 +1,4 @@
 import { getAllCountries, randomPointInCountry } from "@/lib/locations";
-import { getNearbyStreetViewPanorama } from "@/lib/street-view";
 import type { CountryFeature } from "@/lib/locations";
 
 export const runtime = "nodejs";
@@ -44,10 +43,7 @@ export async function POST(request: Request) {
     (!Array.isArray(body.countries) ||
       body.countries.some((country) => typeof country !== "string"))
   ) {
-    return errorResponse(
-      "countries must be an array of country names",
-      400,
-    );
+    return errorResponse("countries must be an array of country names", 400);
   }
 
   let countryNames = Array.isArray(body.countries)
@@ -70,42 +66,13 @@ export async function POST(request: Request) {
     return errorResponse("One or more country names are invalid", 400);
   }
 
-  console.log("Selected country: ", country.properties.name);
-
-  let panorama = null;
-  let generatedLocation = null;
-  let attempts = 0;
-  const maxAttempts = 5;
-
-  while (!panorama && attempts < maxAttempts) {
-    attempts++;
-    generatedLocation = randomPointInCountry(country);
-    console.log(`Generated location (Attempt ${attempts}): `, generatedLocation);
-
-    try {
-      panorama = await getNearbyStreetViewPanorama(generatedLocation, country);
-      if (panorama) {
-        console.log("Street View panorama found: ", panorama);
-      }
-    } catch (error) {
-      console.error(`Attempt ${attempts}: Could not start game with Street View`, error);
-    }
-  }
-
-  if (!panorama) {
-    return errorResponse(
-      "No Street View panorama was found inside the selected country after several attempts. Please try again.",
-      404,
-    );
-  }
-
   return Response.json({
     country: {
       name: country.properties.name,
+      iso2: country.properties.iso2,
       iso3: country.properties.iso3,
       continent: country.properties.continent,
     },
-    generatedLocation,
-    panorama,
+    generatedLocation: randomPointInCountry(country),
   });
 }
