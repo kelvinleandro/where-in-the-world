@@ -62,8 +62,10 @@ function createStreetView(
   });
   const updateLocation = () => {
     const position = streetView.getPosition();
-    if (position)
+    if (position) {
       onLocationChange({ lat: position.lat(), lng: position.lng() });
+      console.log(`Coord: ${position.lat()} ${position.lng()}`);
+    }
   };
 
   streetView.addListener("position_changed", updateLocation);
@@ -73,7 +75,7 @@ function createStreetView(
 function createGlobalMap(
   maps: GoogleMaps,
   element: HTMLDivElement,
-  onGuess: (guess: Coordinates) => void,
+  onGuess: (guess: Coordinates) => boolean,
 ): GoogleMap {
   const map = new maps.Map(element, {
     center: GLOBAL_MAP_CENTER,
@@ -94,13 +96,13 @@ function createGlobalMap(
   map.addListener("click", (event: GoogleMapClickEvent) => {
     if (event.latLng) {
       const location = { lat: event.latLng.lat(), lng: event.latLng.lng() };
+      if (!onGuess(location)) return;
       if (guessMarker) guessMarker.map = null;
       guessMarker = new maps.marker.AdvancedMarkerElement({
         map,
         position: location,
         title: "Your guess",
       });
-      onGuess(location);
     }
   });
   return map;
@@ -118,6 +120,7 @@ export function GameScreen() {
   const [streetViewLocation, setStreetViewLocation] =
     useState<Coordinates | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const submittedRef = useRef(false);
   const [roundKey, setRoundKey] = useState(0);
 
   useEffect(() => {
@@ -177,7 +180,11 @@ export function GameScreen() {
         mapInstance.current = createGlobalMap(
           maps,
           mapElement.current,
-          setGuess,
+          (location) => {
+            if (submittedRef.current) return false;
+            setGuess(location);
+            return true;
+          },
         );
         setLoading(false);
       } catch (startError) {
@@ -235,11 +242,15 @@ export function GameScreen() {
       guess={guess}
       streetViewLocation={streetViewLocation}
       submitted={submitted}
-      onGuess={() => setSubmitted(true)}
+      onGuess={() => {
+        setSubmitted(true);
+        submittedRef.current = true;
+      }}
       onNewRound={() => {
         setGuess(null);
         setStreetViewLocation(null);
         setSubmitted(false);
+        submittedRef.current = false;
         setLoading(true);
         setError(null);
         setRoundKey((key) => key + 1);
