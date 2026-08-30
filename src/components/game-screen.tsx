@@ -3,6 +3,7 @@
 import { distance as turfDistance } from "@turf/distance";
 import { LoaderCircle, Map, MapPin, Rotate3D } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import type { Coordinates } from "@/lib/locations";
 import {
@@ -323,12 +324,17 @@ function GameView({
   return (
     <main className="relative flex min-h-screen flex-col overflow-hidden bg-[#10251f] text-[#f5f1e8]">
       <header className="relative z-10 flex h-16 shrink-0 items-center gap-3 border-b border-[#395448] bg-[#10251f] px-5 sm:px-8">
-        <span className="flex size-8 items-center justify-center rounded-full bg-[#c9db59] text-[#10251f]">
-          <MapPin className="size-4 fill-current" />
-        </span>
-        <span className="font-mono text-xs font-semibold uppercase tracking-[0.22em]">
-          Where in the world?
-        </span>
+        <Link
+          href="/"
+          className="flex items-center gap-3 transition-opacity hover:opacity-80"
+        >
+          <span className="flex size-8 items-center justify-center rounded-full bg-[#c9db59] text-[#10251f]">
+            <MapPin className="size-4 fill-current" />
+          </span>
+          <span className="font-mono text-xs font-semibold uppercase tracking-[0.22em]">
+            Where in the world?
+          </span>
+        </Link>
       </header>
 
       <section className="relative min-h-0 flex-1">
