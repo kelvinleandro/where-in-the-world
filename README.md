@@ -2,6 +2,8 @@
 
 An open-source, interactive geography guessing game inspired by GeoGuessr, built with modern web technologies. Drop yourself into a random Street View location anywhere in the world (or in a specific country) and test your geographical knowledge by guessing where you are on the map!
 
+https://github.com/user-attachments/assets/735e475f-e2e1-4731-8def-5decf149e989
+
 ## 🚀 Features
 
 - **Customizable Gameplay**: Choose to play globally, filter by continent, or select specific countries for your rounds.
