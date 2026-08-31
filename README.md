@@ -1,6 +1,6 @@
 # Where in the world? 🌍
 
-An open-source, interactive geography guessing game inspired by GeoGuessr, built with modern web technologies. Drop yourself into a random Street View location anywhere in the world (or in a specific country) and test your geographical knowledge by guessing where you are on the map!
+An open-source, interactive geography guessing game inspired by GeoGuessr, built with modern web technologies. Drop yourself into a random Street View location anywhere in the world (or in a specific country/continent) and try to guess where you are.
 
 https://github.com/user-attachments/assets/735e475f-e2e1-4731-8def-5decf149e989
 
@@ -56,7 +56,7 @@ https://github.com/user-attachments/assets/735e475f-e2e1-4731-8def-5decf149e989
 - `src/components/` - React components including the main `HomeScreen` and `GameScreen` UI.
 - `src/lib/locations/` - Handlers for country data and generating random coordinates inside boundaries.
 - `src/lib/street-view/` - Logic for loading the Google Maps script, querying panoramas (`findOfficialPanorama`), and boundary validations.
-- `public/countries.geojson` - Geographic boundaries used to validate if a generated point actually lands inside a country.
+- `public/countries.geojson` - Country boundaries converted from the [Natural Earth Admin 0 50m](https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries-2/) dataset.
 
 ## 📄 License
 
